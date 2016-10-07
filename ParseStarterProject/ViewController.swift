@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     func displayAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alertController.addAction(UIAlertAction(title: Constants.Alert.Title.ok, style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: Constants.Alert.Title.OK, style: .default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
     }
@@ -48,45 +48,45 @@ class ViewController: UIViewController {
         {
             if userName.isEmpty() && !password.isEmpty()
             {
-                displayAlert(title: Constants.Alert.Title.emptyUserName, message: Constants.Alert.Message.emptyUserName)
+                displayAlert(title: Constants.Alert.Title.EmptyUserName, message: Constants.Alert.Message.EmptyUserName)
             }
             else if !userName.isEmpty() && password.isEmpty()
             {
-                displayAlert(title: Constants.Alert.Title.emptyPassword, message: Constants.Alert.Message.emptyPassword)
+                displayAlert(title: Constants.Alert.Title.EmptyPassword, message: Constants.Alert.Message.EmptyPassword)
             }
             else if userName.isEmpty() && password.isEmpty()
             {
-                displayAlert(title: Constants.Alert.Title.emptyUserNameAndPassword, message: Constants.Alert.Message.emptyUserNameAndPassword)
+                displayAlert(title: Constants.Alert.Title.EmptyUserNameAndPassword, message: Constants.Alert.Message.EmptyUserNameAndPassword)
             }
             else
             {
-                var displayedErrorMessage: String = Constants.String.empty
+                var displayedErrorMessage: String = Constants.String.Empty
                 if signUpMode
                 {
                     let user = PFUser()
                     user.username = userName
                     user.password = password
-                    user[Constants.Key.isDriver] = isDriverSwitch.isOn
+                    user[Constants.Key.IsDriver] = isDriverSwitch.isOn
                     user.signUpInBackground(block: { (success, error) in
-                        if let parseError = (error as? NSError)?.userInfo[Constants.Key.error] as? String
+                        if let parseError = (error as? NSError)?.userInfo[Constants.Key.Error] as? String
                         {
                             displayedErrorMessage = parseError
-                            self.displayAlert(title: Constants.Alert.Title.signUpFailed, message: displayedErrorMessage)
+                            self.displayAlert(title: Constants.Alert.Title.SignUpFailed, message: displayedErrorMessage)
                         } else
                         {
-                            print(Constants.Display.Message.signUpSuccessful)
+                            print(Constants.Display.Message.SignUpSuccessful)
                         }
                     })
                 } else
                 {
                     PFUser.logInWithUsername(inBackground: userName, password: password, block: { (user, error) in
-                        if let parseError = (error as? NSError)?.userInfo[Constants.Key.error] as? String
+                        if let parseError = (error as? NSError)?.userInfo[Constants.Key.Error] as? String
                         {
                             displayedErrorMessage = parseError
-                            self.displayAlert(title: Constants.Alert.Title.logInFailed, message: displayedErrorMessage)
+                            self.displayAlert(title: Constants.Alert.Title.LogInFailed, message: displayedErrorMessage)
                         } else
                         {
-                            print(Constants.Display.Message.logInSuccessful)
+                            print(Constants.Display.Message.LogInSuccessful)
                         }
                     })
                 }
@@ -105,13 +105,13 @@ class ViewController: UIViewController {
     {
         if signUpMode
         {
-            signUpOrLoginLabel.setTitle(Constants.Button.Title.logIn, for: [])
-            signUpSwitchLabel.setTitle(Constants.Button.Title.switchToSignUp, for: [])
+            signUpOrLoginLabel.setTitle(Constants.Button.Title.LogIn, for: [])
+            signUpSwitchLabel.setTitle(Constants.Button.Title.SwitchToSignUp, for: [])
             signUpMode = false
         } else
         {
-            signUpOrLoginLabel.setTitle(Constants.Button.Title.signUp, for: [])
-            signUpSwitchLabel.setTitle(Constants.Button.Title.switchToLogIn, for: [])
+            signUpOrLoginLabel.setTitle(Constants.Button.Title.SignUp, for: [])
+            signUpSwitchLabel.setTitle(Constants.Button.Title.SwitchToLogIn, for: [])
             signUpMode = true
         }
     }
@@ -157,90 +157,97 @@ class ViewController: UIViewController {
     }
     
     private struct Constants {
+        struct Storyboard
+        {
+            struct Segue
+            {
+                static let SegueLogInToRiderOnMap = "ShowRiderOnMap"
+            }
+        }
         struct String
         {
-            static let empty = ""
+            static let Empty = ""
         }
         struct Button
         {
             struct Title
             {
-                static let logIn = "Log In"
-                static let signUp = "Sign Up"
-                static let switchToLogIn = "Switch to Log In"
-                static let switchToSignUp = "Switch to Sign Up"
+                static let LogIn = "Log In"
+                static let SignUp = "Sign Up"
+                static let SwitchToLogIn = "Switch to Log In"
+                static let SwitchToSignUp = "Switch to Sign Up"
             }
         }
         struct Alert
         {
             struct Title
             {
-                static let ok = "OK"
-                static let continue_ = "Continue"
-                static let cancel = "Cancel"
-                static let signUp = "Sign Up"
-                static let logIn = "Log In"
-                static let signUpFailed = "Sign Up Failed."
-                static let logInFailed = "Log In Failed."
-                static let emptyUserName = "User Name Not Captured"
-                static let emptyPassword = "Password Not Captured"
-                static let emptyUserNameAndPassword = "User Name and Password Not Captured"
+                static let OK = "OK"
+                static let Continue = "Continue"
+                static let Cancel = "Cancel"
+                static let SignUp = "Sign Up"
+                static let LogIn = "Log In"
+                static let SignUpFailed = "Sign Up Failed."
+                static let LogInFailed = "Log In Failed."
+                static let EmptyUserName = "User Name Not Captured"
+                static let EmptyPassword = "Password Not Captured"
+                static let EmptyUserNameAndPassword = "User Name and Password Not Captured"
             }
             struct Message
             {
-                static let signUpFailed = "Sorry, the sign up attempt was not successful."
-                static let logInFailed = "Sorry, the log in attempt was not successful."
-                static let emptyUserName = "How would you like to be called? Please enter a username of your choice."
-                static let emptyPassword = "Your account security is our priority. Please enter a secure password."
-                static let emptyUserNameAndPassword = "Your account security is our priority. Please enter a user name and password."
+                static let SignUpFailed = "Sorry, the sign up attempt was not successful."
+                static let LogInFailed = "Sorry, the log in attempt was not successful."
+                static let EmptyUserName = "How would you like to be called? Please enter a username of your choice."
+                static let EmptyPassword = "Your account security is our priority. Please enter a secure password."
+                static let EmptyUserNameAndPassword = "Your account security is our priority. Please enter a user name and password."
             }
         }
         struct Key
         {
-            static let isDriver = "isDriver"
-            static let isUser = "isUser"
-            static let error = "error"
-            static let logIn = "Log In"
-            static let signUp = "Sign Up"
+            static let IsDriver = "isDriver"
+            static let IsUser = "isUser"
+            static let Error = "error"
+            static let LogIn = "Log In"
+            static let SignUp = "Sign Up"
         }
         struct Error
         {
             struct Message
             {
-                static let tryAgain = "Please, try again later."
+                static let TryAgain = "Please, try again later."
             }
         }
         struct Display
         {
             struct Message
             {
-                static let logInSuccessful = "You logged in successfully."
-                static let signUpSuccessful = "You signed up successfully."
+                static let LogInSuccessful = "You logged in successfully."
+                static let SignUpSuccessful = "You signed up successfully."
             }
         }
         struct Mirror
         {
             struct Key
             {
-                static let alert = "Alert"
-                static let key = "Key"
-                static let button = "Button"
-                static let title = "Title"
-                static let message = "Message"
-                static let error = "Error"
-                static let display = "Display"
-                static let logIn = Constants.Key.logIn
-                static let logInSuccessful = "logInSuccessful"
-                static let signUpSuccessful = "signUpSuccessful"
+                static let Alert = "Alert"
+                static let Key = "Key"
+                static let Button = "Button"
+                static let Title = "Title"
+                static let Message = "Message"
+                static let Error = "Error"
+                static let Display = "Display"
+                static let LogIn = Constants.Key.LogIn
+                static let LogInSuccessful = "logInSuccessful"
+                static let SignUpSuccessful = "signUpSuccessful"
             }
   
         }
     }
-    let constants: [String: [String: [String: String]]] = [
-        Constants.Mirror.Key.display: [
-                Constants.Mirror.Key.message: [
-                    Constants.Mirror.Key.logInSuccessful: Constants.Display.Message.logInSuccessful,
-                    Constants.Mirror.Key.signUpSuccessful: Constants.Display.Message.signUpSuccessful
+    let ConstantsDict: [String: [String: [String: String]]] = [
+        Constants.Mirror.Key.Display: [
+                Constants.Mirror.Key.Message: [
+                    Constants.Mirror.Key.LogInSuccessful: Constants.Display.Message.LogInSuccessful,
+                    Constants.Mirror.Key.SignUpSuccessful: Constants.Display.Message.SignUpSuccessful
             ]
         ]
     ]
