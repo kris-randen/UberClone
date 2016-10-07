@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     }
     
     var signUpMode = true
+    var logInSignUpTransition: String = Constants.String.Empty
     
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -67,14 +68,27 @@ class ViewController: UIViewController {
                     user.username = userName
                     user.password = password
                     user[Constants.Key.IsDriver] = isDriverSwitch.isOn
-                    user.signUpInBackground(block: { (success, error) in
+                    user.signUpInBackground(block: { [weak weakSelf = self] (success, error) in
                         if let parseError = (error as? NSError)?.userInfo[Constants.Key.Error] as? String
                         {
                             displayedErrorMessage = parseError
                             self.displayAlert(title: Constants.Alert.Title.SignUpFailed, message: displayedErrorMessage)
-                        } else
+                        }
+                        else
                         {
                             print(Constants.Display.Message.SignUpSuccessful)
+                            
+                            if let isDriver = PFUser.current()?[Constants.Key.IsDriver] as? Bool
+                            {
+                                if isDriver
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    self.segue(withIdentifier: Constants.Storyboard.Segue.LogInToRiderOnMap)
+                                }
+                            }
                         }
                     })
                 } else
@@ -87,11 +101,17 @@ class ViewController: UIViewController {
                         } else
                         {
                             print(Constants.Display.Message.LogInSuccessful)
+                            self.segue(withIdentifier: Constants.Storyboard.Segue.LogInToRiderOnMap)
                         }
                     })
                 }
             }
         }
+    }
+    
+    func segue(withIdentifier identifier: String)
+    {
+        performSegue(withIdentifier: identifier, sender: self)
     }
 
     func parseSignUpLogIn(logInOrSignUp action: String)
@@ -101,6 +121,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var signUpOrLoginLabel: UIButton!
     
+    @IBOutlet weak var riderLabel: UILabel!
+    @IBOutlet weak var driverLabel: UILabel!
+    
     @IBAction func signUpSwitchButton(_ sender: AnyObject)
     {
         if signUpMode
@@ -108,11 +131,20 @@ class ViewController: UIViewController {
             signUpOrLoginLabel.setTitle(Constants.Button.Title.LogIn, for: [])
             signUpSwitchLabel.setTitle(Constants.Button.Title.SwitchToSignUp, for: [])
             signUpMode = false
+            
+            isDriverSwitch.isHidden = true
+            riderLabel.isHidden = true
+            driverLabel.isHidden = true
+            
         } else
         {
             signUpOrLoginLabel.setTitle(Constants.Button.Title.SignUp, for: [])
             signUpSwitchLabel.setTitle(Constants.Button.Title.SwitchToLogIn, for: [])
             signUpMode = true
+            
+            isDriverSwitch.isHidden = false
+            riderLabel.isHidden = false
+            driverLabel.isHidden = false
         }
     }
     
@@ -161,7 +193,8 @@ class ViewController: UIViewController {
         {
             struct Segue
             {
-                static let SegueLogInToRiderOnMap = "ShowRiderOnMap"
+                static let LogInToRiderOnMap = "ShowRiderOnMap"
+                static let Logout = "Logout"
             }
         }
         struct String
