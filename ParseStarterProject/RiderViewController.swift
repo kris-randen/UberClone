@@ -8,8 +8,17 @@
 
 import UIKit
 import Parse
+import MapKit
 
-class RiderViewController: UIViewController {
+class RiderViewController: UIViewController, MKMapViewDelegate {
+    
+    @IBOutlet weak var riderOnMapView: MKMapView!
+    @IBOutlet weak var callCoachLabel: UIButton!
+    @IBAction func callCoachButton(_ sender: AnyObject)
+    {
+        
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Storyboard.Segue.Logout
