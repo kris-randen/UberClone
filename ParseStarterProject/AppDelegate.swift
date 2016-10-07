@@ -47,12 +47,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // PFFacebookUtils.initializeFacebook()
         // ****************************************************************************
 
-        PFUser.enableAutomaticUser()
+        // PFUser.enableAutomaticUser()
+        
 
         let defaultACL = PFACL();
 
         // If you would like all objects to be private by default, remove this line.
         defaultACL.getPublicReadAccess = true
+        defaultACL.getPublicWriteAccess = true
 
         PFACL.setDefault(defaultACL, withAccessForCurrentUser: true)
 
