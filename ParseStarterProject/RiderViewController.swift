@@ -12,6 +12,7 @@ import MapKit
 
 class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    var callCoachButtonImage: UIImage? = #imageLiteral(resourceName: " Cancel")
     var locationManger = CLLocationManager()
     var userLocation: CLLocationCoordinate2D = Constants.Map.Location.BaseInitializer
     
@@ -30,6 +31,7 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
                 if success
                 {
                     print(Constants.Display.Message.SuccessfullyCalledCoach)
+                    self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
                 }
                 else
                 {
@@ -42,7 +44,6 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
             displayAlert(target: self, title: Constants.Alert.Title.CurrentLocationNotFound, message: Constants.Alert.Message.CurrentLocationNotFound)
         }
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.RiderViewController.Segue.Logout
@@ -77,7 +78,6 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
             annotation.coordinate = userLocation
             annotation.title = Constants.Map.Annotation.TitleForUserLocation
             self.riderOnMapView.addAnnotation(annotation)
-            
         }
     }
 
@@ -86,8 +86,6 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         // Dispose of any resources that can be recreated.
     }
     
-        
-
     /*
     // MARK: - Navigation
 

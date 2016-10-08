@@ -24,12 +24,20 @@ struct Constants {
     }
     struct Button
     {
+        struct Image
+        {
+            static let CallCoach = "Call Coach"
+            static let Cancel = "Cancel"
+        }
         struct Title
         {
             static let LogIn = "Log In"
             static let SignUp = "Sign Up"
             static let SwitchToLogIn = "Switch to Log In"
             static let SwitchToSignUp = "Switch to Sign Up"
+            static let CallCoach = Constants.Button.Image.CallCoach
+            static let Cancel = Constants.Button.Image.Cancel
+            
         }
     }
     struct Alert
@@ -136,7 +144,7 @@ struct Constants {
         struct UserRequest
         {
             static let UserName = "username"
-            static let Location = "Location"
+            static let Location = "location"
         }
     }
 }
