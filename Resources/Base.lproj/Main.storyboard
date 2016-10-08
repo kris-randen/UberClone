@@ -28,7 +28,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="17v-Mp-hhZ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="abcRider" borderStyle="roundedRect" placeholder="username..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="17v-Mp-hhZ">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="LwC-s3-4zy"/>
                                 </constraints>
@@ -36,7 +36,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QR4-b6-gyS">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="abcdefg" borderStyle="roundedRect" placeholder="password..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QR4-b6-gyS">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="gWW-iw-h0B"/>
                                 </constraints>
@@ -149,10 +149,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="AJu-G0-ykM">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="AJu-G0-ykM"/>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tsz-tA-IWY">
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="JwF-Yc-PZY">
                                     <frame key="frameInset"/>
@@ -163,9 +160,7 @@
                                 </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NNC-oD-AJD">
-                                <frame key="frameInset" minY="20" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NNC-oD-AJD">
                                 <items>
                                     <navigationItem title="Uber" id="D6a-zM-bgA">
                                         <barButtonItem key="leftBarButtonItem" style="plain" id="5e6-Va-nKo">
@@ -210,13 +205,23 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="NNC-oD-AJD" firstAttribute="leading" secondItem="1EZ-Qq-opw" secondAttribute="leading" id="9eN-by-vft"/>
                             <constraint firstItem="kep-dX-WJK" firstAttribute="centerX" secondItem="1EZ-Qq-opw" secondAttribute="centerX" id="A3u-Yb-faZ"/>
+                            <constraint firstItem="AJu-G0-ykM" firstAttribute="centerY" secondItem="1EZ-Qq-opw" secondAttribute="centerY" id="AmG-zH-etB"/>
+                            <constraint firstItem="Q6q-HR-Aoa" firstAttribute="top" secondItem="AJu-G0-ykM" secondAttribute="bottom" id="CIj-3m-pDs"/>
                             <constraint firstItem="tsz-tA-IWY" firstAttribute="top" secondItem="1EZ-Qq-opw" secondAttribute="top" id="HXm-z2-m2u"/>
+                            <constraint firstItem="NNC-oD-AJD" firstAttribute="top" secondItem="iTr-s3-imc" secondAttribute="bottom" id="Hob-PV-RIh"/>
                             <constraint firstItem="Q6q-HR-Aoa" firstAttribute="top" secondItem="kep-dX-WJK" secondAttribute="bottom" id="I8O-ZM-tIW"/>
+                            <constraint firstAttribute="trailing" secondItem="NNC-oD-AJD" secondAttribute="trailing" id="L7A-bo-vcM"/>
+                            <constraint firstItem="AJu-G0-ykM" firstAttribute="top" secondItem="1EZ-Qq-opw" secondAttribute="top" id="MYP-lj-AKl"/>
+                            <constraint firstAttribute="trailing" secondItem="AJu-G0-ykM" secondAttribute="trailing" id="OE3-WG-odI"/>
                             <constraint firstItem="tsz-tA-IWY" firstAttribute="centerX" secondItem="1EZ-Qq-opw" secondAttribute="centerX" id="V55-Px-EKa"/>
+                            <constraint firstItem="AJu-G0-ykM" firstAttribute="centerX" secondItem="1EZ-Qq-opw" secondAttribute="centerX" id="Yff-PD-oFa"/>
                             <constraint firstAttribute="trailing" secondItem="tsz-tA-IWY" secondAttribute="trailing" id="ZbT-LX-b1k"/>
                             <constraint firstItem="kep-dX-WJK" firstAttribute="leading" secondItem="1EZ-Qq-opw" secondAttribute="leading" id="ekL-nz-9c2"/>
+                            <constraint firstItem="AJu-G0-ykM" firstAttribute="leading" secondItem="1EZ-Qq-opw" secondAttribute="leading" id="h5O-U9-13S"/>
                             <constraint firstItem="tsz-tA-IWY" firstAttribute="leading" secondItem="1EZ-Qq-opw" secondAttribute="leading" id="hIk-ht-ol8"/>
+                            <constraint firstItem="NNC-oD-AJD" firstAttribute="centerX" secondItem="1EZ-Qq-opw" secondAttribute="centerX" id="k0o-S1-AAn"/>
                             <constraint firstAttribute="trailing" secondItem="kep-dX-WJK" secondAttribute="trailing" id="mcX-Z4-SrX"/>
                         </constraints>
                     </view>
