@@ -130,7 +130,7 @@
                         <outlet property="signUpOrLoginLabel" destination="e1W-A7-nSA" id="vfi-1M-cSV"/>
                         <outlet property="signUpSwitchLabel" destination="CJg-RN-wdz" id="VzU-kQ-9I8"/>
                         <outlet property="userNameTextField" destination="17v-Mp-hhZ" id="YLg-XK-Phq"/>
-                        <segue destination="3Hu-CA-fEG" kind="show" identifier="ShowRiderOnMap" id="k02-P4-icb"/>
+                        <segue destination="3Hu-CA-fEG" kind="show" identifier="ShowRiderOnMap" id="VzN-ED-znp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -232,7 +232,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3BU-04-ByZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="631" y="98"/>
+            <point key="canvasLocation" x="1006" y="108"/>
         </scene>
     </scenes>
     <resources>

@@ -13,9 +13,11 @@ import MapKit
 class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     var locationManger = CLLocationManager()
-    var userLocation: CLLocationCoordinate2D = Constants.Map.Location.BaseInitializer
     
     var userRequestActive = true
+    
+    var userLocation: CLLocationCoordinate2D = Constants.Map.Location.BaseInitializer
+
     
     @IBOutlet weak var riderOnMapView: MKMapView!
     @IBOutlet weak var callCoachLabel: UIButton!
@@ -49,8 +51,11 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
                 self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
                 
                 let userRequest = PFObject(className: Constants.Parse.Object.UserRequest)
+                
                 userRequest[Constants.Parse.UserRequest.UserName] = PFUser.current()?.username
+                
                 userRequest[Constants.Parse.UserRequest.Location] = PFGeoPoint(latitude: userLocation.latitude, longitude: userLocation.longitude)
+                
                 userRequest.saveInBackground(block: { (success, error) in
                     if success
                     {
@@ -76,9 +81,8 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.RiderViewController.Segue.Logout
         {
+            locationManger.stopUpdatingLocation()
             PFUser.logOut()
-            print(Constants.RiderViewController.Segue.Logout)
-            print(segue.identifier)
         }
     }
 
@@ -93,7 +97,9 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         callCoachLabel.isHidden = true
         
         let query = PFQuery(className: Constants.Parse.Object.UserRequest)
-        query.whereKey(Constants.Parse.Object.UserRequest, equalTo: (PFUser.current()?.username)!)
+        
+        query.whereKey(Constants.Parse.Object.UserName, equalTo: (PFUser.current()?.username)!)
+        
         query.findObjectsInBackground(block: { (objects, error) in
             if objects != nil
             {
@@ -111,18 +117,24 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         if let location = manager.location?.coordinate
         {
             userLocation = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            
             let region = MKCoordinateRegionMakeWithDistance(userLocation, Constants.Map.Distance.SpanHeight, Constants.Map.Distance.SpanWidth)
+            
             self.riderOnMapView.setRegion(region, animated: true)
             
             self.riderOnMapView.removeAnnotations(self.riderOnMapView.annotations)
             
             let annotation = MKPointAnnotation()
+            
             annotation.coordinate = userLocation
+            
             annotation.title = Constants.Map.Annotation.TitleForUserLocation
+            
             self.riderOnMapView.addAnnotation(annotation)
             
             let query = PFQuery(className: Constants.Parse.Object.UserRequest)
-            query.whereKey(Constants.Parse.Object.UserRequest, equalTo: (PFUser.current()?.username)!)
+            
+            query.whereKey(Constants.Parse.Object.UserName, equalTo: (PFUser.current()?.username)!)
             query.findObjectsInBackground(block: { (objects, error) in
                 if let userRequests = objects
                 {
