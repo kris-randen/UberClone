@@ -140,11 +140,13 @@ struct Constants {
         struct Object
         {
             static let UserRequest = "UserRequest"
+            static let UserName = "username"
+            static let Location = "location"
         }
         struct UserRequest
         {
-            static let UserName = "username"
-            static let Location = "location"
+            static let UserName = Constants.Parse.Object.UserName
+            static let Location = Constants.Parse.Object.Location
         }
     }
 }
