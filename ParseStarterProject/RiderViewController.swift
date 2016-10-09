@@ -15,31 +15,60 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
     var locationManger = CLLocationManager()
     var userLocation: CLLocationCoordinate2D = Constants.Map.Location.BaseInitializer
     
+    var userRequestActive = true
+    
     @IBOutlet weak var riderOnMapView: MKMapView!
     @IBOutlet weak var callCoachLabel: UIButton!
     @IBAction func callCoachButton(_ sender: AnyObject)
     {
-        if userLocation.latitude != Constants.Map.Location.BaseInitializer.latitude
-            &&
-           userLocation.longitude != Constants.Map.Location.BaseInitializer.longitude
+        if userRequestActive
         {
-            let userRequest = PFObject(className: Constants.Parse.Object.UserRequest)
-            userRequest[Constants.Parse.UserRequest.UserName] = PFUser.current()?.username
-            userRequest[Constants.Parse.UserRequest.Location] = PFGeoPoint(latitude: userLocation.latitude, longitude: userLocation.longitude)
-            userRequest.saveInBackground(block: { (success, error) in
-                if success
+            callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Call Coach"), for: [])
+            userRequestActive = false
+            
+            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
+            query.whereKey(Constants.Parse.Object.UserName, equalTo: (PFUser.current()?.username)!)
+            query.findObjectsInBackground(block: { (objects, error) in
+                if let userRequests = objects
                 {
-                    print(Constants.Display.Message.SuccessfullyCalledCoach)
-                }
-                else
-                {
-                    displayAlert(target: self, title: Constants.Alert.Title.FailedToCallCoach, message: Constants.Alert.Message.FailedToCallCoach)
+                    for userRequest in userRequests
+                    {
+                        userRequest.deleteInBackground()
+                    }
                 }
             })
         }
         else
         {
-            displayAlert(target: self, title: Constants.Alert.Title.CurrentLocationNotFound, message: Constants.Alert.Message.CurrentLocationNotFound)
+            
+            if userLocation.latitude != Constants.Map.Location.BaseInitializer.latitude
+                &&
+               userLocation.longitude != Constants.Map.Location.BaseInitializer.longitude
+            {
+                userRequestActive = true
+                self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
+                
+                let userRequest = PFObject(className: Constants.Parse.Object.UserRequest)
+                userRequest[Constants.Parse.UserRequest.UserName] = PFUser.current()?.username
+                userRequest[Constants.Parse.UserRequest.Location] = PFGeoPoint(latitude: userLocation.latitude, longitude: userLocation.longitude)
+                userRequest.saveInBackground(block: { (success, error) in
+                    if success
+                    {
+                        print(Constants.Display.Message.SuccessfullyCalledCoach)
+                    }
+                    else
+                    {
+                        self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Call Coach"), for: [])
+                        self.userRequestActive = false
+                        
+                        displayAlert(target: self, title: Constants.Alert.Title.FailedToCallCoach, message: Constants.Alert.Message.FailedToCallCoach)
+                    }
+                })
+            }
+            else
+            {
+                displayAlert(target: self, title: Constants.Alert.Title.CurrentLocationNotFound, message: Constants.Alert.Message.CurrentLocationNotFound)
+            }
         }
     }
     
@@ -61,6 +90,20 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         locationManger.requestWhenInUseAuthorization()
         locationManger.startUpdatingLocation()
         
+        callCoachLabel.isHidden = true
+        
+        let query = PFQuery(className: Constants.Parse.Object.UserRequest)
+        query.whereKey(Constants.Parse.Object.UserRequest, equalTo: (PFUser.current()?.username)!)
+        query.findObjectsInBackground(block: { (objects, error) in
+            if objects != nil
+            {
+                self.userRequestActive = true
+                self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
+            }
+            self.callCoachLabel.isHidden = false
+        })
+
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -78,6 +121,18 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
             annotation.title = Constants.Map.Annotation.TitleForUserLocation
             self.riderOnMapView.addAnnotation(annotation)
             
+            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
+            query.whereKey(Constants.Parse.Object.UserRequest, equalTo: (PFUser.current()?.username)!)
+            query.findObjectsInBackground(block: { (objects, error) in
+                if let userRequests = objects
+                {
+                    for userRequest in userRequests
+                    {
+                        userRequest[Constants.Parse.UserRequest.Location] = PFGeoPoint(latitude: self.userLocation.latitude, longitude: self.userLocation.longitude)
+                        userRequest.saveInBackground()
+                    }
+                }
+            })
         }
     }
 
