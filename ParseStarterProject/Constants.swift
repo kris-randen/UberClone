@@ -35,6 +35,7 @@ struct Constants {
         {
             static let Driver = Constants.ViewController.Segue.LogInToDriverViewController
             static let Logout = "LogOutDriver"
+            static let ShowUserLocation = "ShowUserLocation"
         }
         struct TableView
         {

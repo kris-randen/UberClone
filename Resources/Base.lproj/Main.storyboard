@@ -166,7 +166,7 @@
                                     <navigationItem title="Uber" id="D6a-zM-bgA">
                                         <barButtonItem key="leftBarButtonItem" style="plain" id="5e6-Va-nKo">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fvJ-L1-geM">
-                                                <rect key="frame" x="16" y="7" width="83" height="30"/>
+                                                <rect key="frame" x="16" y="963" width="83" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Logout"/>
                                                 <connections>
@@ -251,6 +251,9 @@
                                     <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="deq-hP-p0i" kind="show" identifier="ShowUserLocation" id="dEJ-rg-KgR"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -270,6 +273,69 @@
             </objects>
             <point key="canvasLocation" x="2175" y="555"/>
         </scene>
+        <!--Rider Location View Controller-->
+        <scene sceneID="gjd-xj-Q1G">
+            <objects>
+                <viewController id="deq-hP-p0i" customClass="RiderLocationViewController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n3E-s7-3a2"/>
+                        <viewControllerLayoutGuide type="bottom" id="4hr-Al-ah2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7if-n0-A0b">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Sc2-c6-j7L"/>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pj6-wh-Sh0">
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Nzg-sA-1NS">
+                                    <frame key="frameInset"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sL-EE-0sw">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="125" id="iMS-4X-wmn"/>
+                                                <constraint firstAttribute="height" constant="40" id="nxj-68-Qch"/>
+                                            </constraints>
+                                            <state key="normal" backgroundImage=" Accept"/>
+                                            <connections>
+                                                <action selector="acceptRequest:" destination="deq-hP-p0i" eventType="touchUpInside" id="t7O-QU-kwm"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="9sL-EE-0sw" firstAttribute="centerX" secondItem="Nzg-sA-1NS" secondAttribute="centerX" id="6am-B6-CNg"/>
+                                        <constraint firstItem="9sL-EE-0sw" firstAttribute="centerY" secondItem="Nzg-sA-1NS" secondAttribute="centerY" id="cBX-Zk-gwF"/>
+                                    </constraints>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="gXJ-yI-7OS"/>
+                                </constraints>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4hr-Al-ah2" firstAttribute="top" secondItem="pj6-wh-Sh0" secondAttribute="bottom" id="0Ej-fo-Vx5"/>
+                            <constraint firstItem="Sc2-c6-j7L" firstAttribute="top" secondItem="7if-n0-A0b" secondAttribute="top" id="4qr-OZ-HfU"/>
+                            <constraint firstItem="Sc2-c6-j7L" firstAttribute="centerX" secondItem="7if-n0-A0b" secondAttribute="centerX" id="5X1-JO-CNc"/>
+                            <constraint firstAttribute="trailing" secondItem="pj6-wh-Sh0" secondAttribute="trailing" id="6o6-J3-I3U"/>
+                            <constraint firstItem="Sc2-c6-j7L" firstAttribute="centerY" secondItem="7if-n0-A0b" secondAttribute="centerY" id="75D-Zj-DP6"/>
+                            <constraint firstItem="Sc2-c6-j7L" firstAttribute="leading" secondItem="7if-n0-A0b" secondAttribute="leading" id="b3N-40-ghe"/>
+                            <constraint firstItem="pj6-wh-Sh0" firstAttribute="centerX" secondItem="7if-n0-A0b" secondAttribute="centerX" id="l6n-aK-h2d"/>
+                            <constraint firstItem="4hr-Al-ah2" firstAttribute="top" secondItem="Sc2-c6-j7L" secondAttribute="bottom" id="lwf-GG-hXG"/>
+                            <constraint firstAttribute="trailing" secondItem="Sc2-c6-j7L" secondAttribute="trailing" id="wBv-FQ-dV0"/>
+                            <constraint firstItem="pj6-wh-Sh0" firstAttribute="leading" secondItem="7if-n0-A0b" secondAttribute="leading" id="yzN-N8-Wqv"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="acceptRequestButton" destination="9sL-EE-0sw" id="efP-sL-LqH"/>
+                        <outlet property="userLocationMap" destination="Sc2-c6-j7L" id="kmb-Am-wdj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tcl-i5-cE2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2876" y="-242.42878560719643"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="QnQ-A6-5ww">
             <objects>
@@ -288,6 +354,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name=" Accept" width="62" height="20"/>
         <image name=" Call Coach" width="62" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>

@@ -26,6 +26,16 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
             PFUser.logOut()
             self.navigationController?.navigationBar.isHidden = true
         }
+        else if segue.identifier == Constants.DriverViewController.Segue.ShowUserLocation
+        {
+            if let destination = segue.destination as? RiderLocationViewController
+            {
+                if let row = tableView.indexPathForSelectedRow?.row
+                {
+                    destination.requestLocation = requestLocations[row]
+                }
+            }
+        }
     }
 
     override func viewDidLoad() {
@@ -50,8 +60,6 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
             
             driverLocation = location
             
-            print("DRIVER LOCATION = \(driverLocation)")
-            
             query.whereKey(Constants.Parse.UserRequest.Location, nearGeoPoint: PFGeoPoint(latitude: location.latitude, longitude: location.longitude))
             
             query.limit = Constants.Parse.Query.DefaultLimit
@@ -69,7 +77,6 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
                             self.requestUserNames.append(userName)
                             if let requestLocation = userRequest[Constants.Parse.UserRequest.Location] as? PFGeoPoint
                             {
-                                print("REQUEST LOCATION = \(requestLocation)")
                                 self.requestLocations.append(CLLocationCoordinate2D(latitude: requestLocation.latitude, longitude: requestLocation.longitude))
                             }
                             else
