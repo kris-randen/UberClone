@@ -57,9 +57,33 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = manager.location?.coordinate
         {
-            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
-            
             driverLocation = location
+            
+            let driverLocationQuery = PFQuery(className: Constants.Parse.Object.CoachLocation)
+            driverLocationQuery.whereKey(Constants.Parse.CoachLocation.UserName, equalTo: PFUser.current()?.username)
+            driverLocationQuery.findObjectsInBackground(block: { (objects, error) in
+                if let driverLocationObjects = objects
+                {
+                    if driverLocationObjects.count > 0
+                    {
+                        for driverLocationObject in driverLocationObjects
+                        {
+                            driverLocationObject[Constants.Parse.CoachLocation.Location] = PFGeoPoint(latitude: self.driverLocation.latitude, longitude: self.driverLocation.longitude)
+                            driverLocationObject.saveInBackground()
+                        }
+                    }
+                    else
+                    {
+                        let driverLocationObject = PFObject(className: Constants.Parse.Object.CoachLocation)
+                        driverLocationObject[Constants.Parse.CoachLocation.UserName] = PFUser.current()?.username
+                        driverLocationObject[Constants.Parse.CoachLocation.Location] = PFGeoPoint(latitude: self.driverLocation.latitude, longitude: self.driverLocation.longitude)
+                        driverLocationObject.saveInBackground()
+                    }
+                    
+                }
+            })
+            
+            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
             
             query.whereKey(Constants.Parse.UserRequest.Location, nearGeoPoint: PFGeoPoint(latitude: location.latitude, longitude: location.longitude))
             

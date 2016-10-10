@@ -163,6 +163,7 @@ struct Constants {
         struct Object
         {
             static let UserRequest = "UserRequest"
+            static let CoachLocation = "CoachLocation"
             static let UserName = "username"
             static let Location = "Location"
         }
@@ -171,6 +172,12 @@ struct Constants {
             static let UserName = Constants.Parse.Object.UserName
             static let Location = Constants.Parse.Object.Location
             static let CoachResponded = "coachResponded"
+            static let CoachLocation = "coachLocation"
+        }
+        struct CoachLocation
+        {
+            static let UserName = Constants.Parse.Object.UserName
+            static let Location = Constants.Parse.Object.Location
         }
         struct Query
         {
