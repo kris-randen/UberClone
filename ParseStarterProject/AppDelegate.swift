@@ -36,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Parse.initialize(with: parseConfiguration)
 
-
         // ****************************************************************************
         // Uncomment and fill in with your Parse credentials:
         // Parse.setApplicationId("your_application_id", clientKey: "your_client_key")
