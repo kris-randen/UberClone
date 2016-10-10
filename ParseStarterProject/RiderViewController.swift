@@ -101,10 +101,13 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         query.whereKey(Constants.Parse.Object.UserName, equalTo: (PFUser.current()?.username)!)
         
         query.findObjectsInBackground(block: { (objects, error) in
-            if objects != nil
+            if let userRequests = objects
             {
-                self.userRequestActive = true
-                self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
+                if userRequests.count > 0
+                {
+                    self.userRequestActive = true
+                    self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Cancel"), for: [])
+                }
             }
             self.callCoachLabel.isHidden = false
         })

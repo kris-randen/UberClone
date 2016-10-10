@@ -112,6 +112,8 @@ struct Constants {
             static let SignUpSuccessful = "You signed up successfully."
             static let SuccessfullyCalledCoach = "Your coach is on the way."
             static let FailedToCallCoach = "Sorry, a coach could not be reached at this point."
+            static let NoRequestsFound = "No user requests found at the moment."
+            static let UserLocationNotConvertibleToCLLocation = "User location could not be converted to a CLLocationCoordinate2D object."
         }
     }
     struct Mirror
@@ -147,6 +149,14 @@ struct Constants {
             static let TitleForUserLocation = "Current Location"
         }
     }
+    
+    struct Conversions
+    {
+        struct Distance
+        {
+            static let MetersInKilometers: Double = 1000.00
+        }
+    }
     struct Parse
     {
         struct Object
@@ -159,6 +169,10 @@ struct Constants {
         {
             static let UserName = Constants.Parse.Object.UserName
             static let Location = Constants.Parse.Object.Location
+        }
+        struct Query
+        {
+            static let DefaultLimit: Int = 10
         }
     }
 }
