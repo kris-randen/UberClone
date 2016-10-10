@@ -131,6 +131,7 @@
                         <outlet property="signUpSwitchLabel" destination="CJg-RN-wdz" id="VzU-kQ-9I8"/>
                         <outlet property="userNameTextField" destination="17v-Mp-hhZ" id="YLg-XK-Phq"/>
                         <segue destination="3Hu-CA-fEG" kind="show" identifier="ShowRiderOnMap" id="VzN-ED-znp"/>
+                        <segue destination="y7y-Vu-nFw" kind="show" identifier="ShowDriverViewController" id="KMD-nx-GFf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -232,10 +233,64 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3BU-04-ByZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1006" y="108"/>
+            <point key="canvasLocation" x="1006" y="-981"/>
+        </scene>
+        <!--Requests-->
+        <scene sceneID="Mp7-cB-sbU">
+            <objects>
+                <tableViewController title="Requests" id="I5i-3d-Ucp" customClass="DriverViewController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nka-1r-IOu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Qj7-Yx-R6v">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qj7-Yx-R6v" id="3so-LA-53m">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="I5i-3d-Ucp" id="9lh-26-TVg"/>
+                            <outlet property="delegate" destination="I5i-3d-Ucp" id="48T-Qz-UsK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Requests" id="T0o-Tz-ngi">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="jdk-7M-kdb">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="show" identifier="LogOutDriver" id="XPs-CU-yps"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Ie-GD-aZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2175" y="555"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QnQ-A6-5ww">
+            <objects>
+                <navigationController id="y7y-Vu-nFw" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KaX-Al-eOV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="I5i-3d-Ucp" kind="relationship" relationship="rootViewController" id="tAj-rb-plf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tcx-XA-Is3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1006" y="555"/>
         </scene>
     </scenes>
     <resources>
         <image name=" Call Coach" width="62" height="20"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="XPs-CU-yps"/>
+    </inferredMetricsTieBreakers>
 </document>

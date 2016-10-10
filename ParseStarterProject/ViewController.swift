@@ -83,18 +83,7 @@ class ViewController: UIViewController {
                         else
                         {
                             print(Constants.Display.Message.SignUpSuccessful)
-                            
-                            if let isDriver = PFUser.current()?[Constants.Key.IsDriver] as? Bool
-                            {
-                                if isDriver
-                                {
-                                    
-                                }
-                                else
-                                {
-                                    self.segue(withIdentifier: Constants.ViewController.Segue.LogInToRiderOnMap)
-                                }
-                            }
+                            self.logInSignUpRiderDriver()
                         }
                     })
                 } else
@@ -108,12 +97,28 @@ class ViewController: UIViewController {
                         } else
                         {
                             print(Constants.Display.Message.LogInSuccessful)
-                            self.segue(withIdentifier: Constants.ViewController.Segue.LogInToRiderOnMap)
+                            self.logInSignUpRiderDriver()
                         }
                     })
                 }
             }
         }
+    }
+    
+    func logInSignUpRiderDriver()
+    {
+        if let isDriver = PFUser.current()?[Constants.Key.IsDriver] as? Bool
+        {
+            if isDriver
+            {
+                self.segue(withIdentifier: Constants.ViewController.Segue.LogInToDriverViewController)
+            }
+            else
+            {
+                self.segue(withIdentifier: Constants.ViewController.Segue.LogInToRiderOnMap)
+            }
+        }
+
     }
     
     func segue(withIdentifier identifier: String)
@@ -156,6 +161,10 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var signUpSwitchLabel: UIButton!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.logInSignUpRiderDriver()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

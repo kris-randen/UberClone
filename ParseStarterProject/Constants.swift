@@ -16,8 +16,35 @@ struct Constants {
         {
             static let LogInToRiderOnMap = "ShowRiderOnMap"
             static let Logout = "Logout"
+            static let LogInToDriverViewController = "ShowDriverViewController"
         }
     }
+    
+    struct RiderViewController
+    {
+        struct Segue
+        {
+            static let Logout = "Logout"
+            static let Driver = Constants.ViewController.Segue.LogInToDriverViewController
+        }
+    }
+    
+    struct DriverViewController
+    {
+        struct Segue
+        {
+            static let Driver = Constants.ViewController.Segue.LogInToDriverViewController
+            static let Logout = "LogOutDriver"
+        }
+        struct TableView
+        {
+            static let DefaultNumberOfSections: Int = 1
+            static let DefaultNumberOfRows: Int = 4
+            static let DefaultCellTextLabelText = "Test"
+            static let DefaultCellReuseIdentifier = "Cell"
+        }
+    }
+
     struct String
     {
         static let Empty = ""
@@ -101,13 +128,6 @@ struct Constants {
             static let LogIn = Constants.Key.LogIn
             static let LogInSuccessful = "logInSuccessful"
             static let SignUpSuccessful = "signUpSuccessful"
-        }
-    }
-    struct RiderViewController
-    {
-        struct Segue
-        {
-            static let Logout = "Logout"
         }
     }
     
