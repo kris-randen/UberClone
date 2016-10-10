@@ -33,6 +33,7 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
                 if let row = tableView.indexPathForSelectedRow?.row
                 {
                     destination.requestLocation = requestLocations[row]
+                    destination.requestUserName = requestUserNames[row]
                 }
             }
         }
@@ -74,14 +75,17 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
                     {
                         if let userName = userRequest[Constants.Parse.Object.UserName] as? String
                         {
-                            self.requestUserNames.append(userName)
-                            if let requestLocation = userRequest[Constants.Parse.UserRequest.Location] as? PFGeoPoint
+                            if userRequest[Constants.Parse.UserRequest.CoachResponded] == nil
                             {
-                                self.requestLocations.append(CLLocationCoordinate2D(latitude: requestLocation.latitude, longitude: requestLocation.longitude))
-                            }
-                            else
-                            {
-                                print(Constants.Display.Message.UserLocationNotConvertibleToCLLocation)
+                                self.requestUserNames.append(userName)
+                                if let requestLocation = userRequest[Constants.Parse.UserRequest.Location] as? PFGeoPoint
+                                {
+                                    self.requestLocations.append(CLLocationCoordinate2D(latitude: requestLocation.latitude, longitude: requestLocation.longitude))
+                                }
+                                else
+                                {
+                                    print(Constants.Display.Message.UserLocationNotConvertibleToCLLocation)
+                                }
                             }
                         }
                     }

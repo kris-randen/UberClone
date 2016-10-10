@@ -170,6 +170,7 @@ struct Constants {
         {
             static let UserName = Constants.Parse.Object.UserName
             static let Location = Constants.Parse.Object.Location
+            static let CoachResponded = "coachResponded"
         }
         struct Query
         {
