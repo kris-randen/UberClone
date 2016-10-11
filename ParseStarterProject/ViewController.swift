@@ -71,7 +71,7 @@ class ViewController: UIViewController {
                     user.username = userName
                     user.password = password
                     user[Constants.Key.IsDriver] = isDriverSwitch.isOn
-                    user.signUpInBackground(block: { [weak weakSelf = self] (success, error) in
+                    user.signUpInBackground(block: { (success, error) in
                         if let parseError = (error as? NSError)?.userInfo[Constants.Key.Error] as? String
                         {
                             displayedErrorMessage = parseError

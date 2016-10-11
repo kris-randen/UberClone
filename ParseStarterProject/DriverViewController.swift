@@ -57,9 +57,37 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = manager.location?.coordinate
         {
-            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
-            
             driverLocation = location
+          
+            //let CoachLocation = PFObject(className: Constants.Parse.Object.CoachLocation)
+            
+            let coachLocationQuery = PFQuery(className: Constants.Parse.Object.CoachLocation)
+            
+            coachLocationQuery.whereKey(Constants.Parse.CoachLocation.UserName, equalTo: PFUser.current()?.username)
+            //coachLocationQuery.whereKey(Constants.Parse.CoachLocation.UserName, equalTo: PFUser.current()?.username)
+            
+//            coachLocationQuery.findObjectsInBackground(block: { (objects, error) in
+//                if let coachLocations = objects
+//                {
+//                    if coachLocations.count > 0
+//                    {
+//                        for coachLocation in coachLocations
+//                        {
+//                            coachLocation[Constants.Parse.Properties.Location] = PFGeoPoint(latitude: self.driverLocation.latitude, longitude: self.driverLocation.longitude)
+//                            coachLocation.saveInBackground()
+//                        }
+//                    }
+//                    else
+//                    {
+//                        let coachLocation = PFObject(className: Constants.Parse.Object.CoachLocation)
+//                        coachLocation[Constants.Parse.Properties.UserName] = PFUser.current()?.username
+//                        coachLocation[Constants.Parse.Properties.Location] = PFGeoPoint(latitude: self.driverLocation.latitude, longitude: self.driverLocation.longitude)
+//                        coachLocation.saveInBackground()
+//                    }
+//                }
+//            })
+            
+            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
             
             query.whereKey(Constants.Parse.UserRequest.Location, nearGeoPoint: PFGeoPoint(latitude: location.latitude, longitude: location.longitude))
             
