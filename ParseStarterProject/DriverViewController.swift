@@ -22,7 +22,7 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.DriverViewController.Segue.Logout
         {
-            locationManager.startUpdatingLocation()
+            locationManager.stopUpdatingLocation()
             PFUser.logOut()
             self.navigationController?.navigationBar.isHidden = true
         }

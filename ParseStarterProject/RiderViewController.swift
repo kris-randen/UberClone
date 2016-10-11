@@ -12,6 +12,8 @@ import MapKit
 
 class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    var coachOnTheWay = false
+    
     var locationManger = CLLocationManager()
     
     var userRequestActive = true
@@ -121,19 +123,22 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
         {
             userLocation = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
             
-            let region = MKCoordinateRegionMakeWithDistance(userLocation, Constants.Map.Distance.SpanHeight, Constants.Map.Distance.SpanWidth)
-            
-            self.riderOnMapView.setRegion(region, animated: true)
-            
-            self.riderOnMapView.removeAnnotations(self.riderOnMapView.annotations)
-            
-            let annotation = MKPointAnnotation()
-            
-            annotation.coordinate = userLocation
-            
-            annotation.title = Constants.Map.Annotation.TitleForUserLocation
-            
-            self.riderOnMapView.addAnnotation(annotation)
+            if coachOnTheWay == false
+            {
+                let region = MKCoordinateRegionMakeWithDistance(userLocation, Constants.Map.Distance.SpanHeight, Constants.Map.Distance.SpanWidth)
+                
+                self.riderOnMapView.setRegion(region, animated: true)
+                
+                self.riderOnMapView.removeAnnotations(self.riderOnMapView.annotations)
+                
+                let annotation = MKPointAnnotation()
+                
+                annotation.coordinate = userLocation
+                
+                annotation.title = Constants.Map.Annotation.TitleForCurrentLocation
+                
+                self.riderOnMapView.addAnnotation(annotation)
+            }
             
             let query = PFQuery(className: Constants.Parse.Object.UserRequest)
             
@@ -169,7 +174,37 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
                                     {
                                         if let coachLocation = coachLocationObject[Constants.Parse.Properties.Location] as? PFGeoPoint
                                         {
+                                            self.coachOnTheWay = true
+                                            
+                                            let coachCLLocation = CLLocation(latitude: coachLocation.latitude, longitude: coachLocation.longitude)
+                                            let userCLLocation = CLLocation(latitude: self.userLocation.latitude, longitude: self.userLocation.longitude)
+                                            let distanceInMs = userCLLocation.distance(from: coachCLLocation)
+                                            let distanceInKMs = round(distanceInMs) / Constants.Conversions.Distance.MetersInKilometers
+                                            //print("DRIVER is \(distanceInKMs) kms away.")
                                             self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Track"), for: [])
+                                            
+                                            let latDeltaSpan = (abs(coachLocation.latitude - self.userLocation.latitude) * Constants.Map.Display.DefaultLatitudeScaling) + Constants.Map.Display.DefaultLatitudeOffsetDegress
+                                            let longDeltaSpan = (abs(coachLocation.longitude - self.userLocation.longitude) * Constants.Map.Display.DefaultLongitudeScaling) + Constants.Map.Display.DefaultLongitudeOffsetDegrees
+                                            let latDeltaCenter = 0.00
+                                                //(coachLocation.latitude - self.userLocation.latitude) / 2
+                                            let longDeltaCenter = 0.00
+                                                //(coachLocation.longitude - self.userLocation.longitude) / 2
+                                            let center = CLLocationCoordinate2DMake((self.userLocation.latitude + latDeltaCenter), (self.userLocation.longitude + longDeltaCenter))
+                                            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpanMake(latDeltaSpan, longDeltaSpan))
+                                            
+                                            self.riderOnMapView.removeAnnotations(self.riderOnMapView.annotations)
+                                            self.riderOnMapView.setRegion(region, animated: true)
+                                            
+                                            let userLocationAnnotation = MKPointAnnotation()
+                                            userLocationAnnotation.coordinate = self.userLocation
+                                            userLocationAnnotation.title = Constants.Map.Annotation.TitleForUserLocation
+                                            self.riderOnMapView.addAnnotation(userLocationAnnotation)
+                                            
+                                            let coachLocationAnnotation = MKPointAnnotation()
+                                            coachLocationAnnotation.coordinate = CLLocationCoordinate2DMake(coachLocation.latitude, coachLocation.longitude)
+                                            coachLocationAnnotation.title = Constants.Map.Annotation.TitleForCoachLocation
+                                            self.riderOnMapView.addAnnotation(coachLocationAnnotation)
+                                            
                                         }
                                     }
                                 }

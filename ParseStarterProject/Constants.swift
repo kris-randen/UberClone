@@ -147,7 +147,18 @@ struct Constants {
         }
         struct Annotation
         {
-            static let TitleForUserLocation = "Current Location"
+            static let TitleForCurrentLocation = "Current Location"
+            static let TitleForUserLocation = "You"
+            static let TitleForCoachLocation = "Coach"
+        }
+        struct Display
+        {
+            static let DefaultLatitudeScaling = 2.00
+            static let DefaultLongitudeScaling = 2.00
+            static let DefaultLatitudeOffsetDegress = 0.005
+            static let DefaultLongitudeOffsetDegrees = 0.005
+            static let DefaultLatitudeOffsetMeters = 500.00
+            static let DefaultLongitudeOffsetMeters = 500.00
         }
     }
     
