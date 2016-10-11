@@ -149,6 +149,37 @@ class RiderViewController: UIViewController, MKMapViewDelegate, CLLocationManage
                 }
             })
         }
+        if userRequestActive == true
+        {
+            let query = PFQuery(className: Constants.Parse.Object.UserRequest)
+            query.whereKey(Constants.Parse.Properties.UserName, equalTo: (PFUser.current()?.username!)!)
+            query.findObjectsInBackground(block: { (objects, error) in
+                if let userRequests = objects
+                {
+                    for userRequest in userRequests
+                    {
+                        if let coachUserName = userRequest[Constants.Parse.UserRequest.CoachResponded]
+                        {
+                            let query = PFQuery(className: Constants.Parse.Object.CoachLocation)
+                            query.whereKey(Constants.Parse.Properties.UserName, equalTo: coachUserName)
+                            query.findObjectsInBackground(block: { (objects, error) in
+                                if let coachLocations = objects
+                                {
+                                    for coachLocationObject in coachLocations
+                                    {
+                                        if let coachLocation = coachLocationObject[Constants.Parse.Properties.Location] as? PFGeoPoint
+                                        {
+                                            self.callCoachLabel.setBackgroundImage(#imageLiteral(resourceName: " Track"), for: [])
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        
+                    }
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {
