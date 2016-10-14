@@ -9,6 +9,7 @@
 
 import UIKit
 import Parse
+import FBSDKLoginKit
 
 extension String
 {
@@ -26,7 +27,7 @@ extension Optional
     }
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
 
 //    func displayAlert(title: String, message: String) {
 //        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -170,6 +171,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        if FBSDKAccessToken.current() != nil
+        {
+            print("KRIS: User logged in.")
+        }
+        else
+        {
+            let loginButton = FBSDKLoginButton()
+            loginButton.center = self.view.center
+            loginButton.readPermissions = ["public_profile", "email"]
+            loginButton.delegate = self
+            self.view.addSubview(loginButton)
+        }
         let testObject = PFObject(className: "TestObject2")
         
         testObject["foo"] = "bar"
@@ -197,6 +210,45 @@ class ViewController: UIViewController {
             
         }
         
+    }
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if let error = error
+        {
+            print("KRIS: Login unsuccessful. Error = \(error)")
+        }
+        else if result.isCancelled
+        {
+            print("KRIS: User cancelled Facebook Authentication.")
+        }
+        else
+        {
+            if result.grantedPermissions.contains("email")
+            {
+                if let graphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,name"])
+                {
+                    graphRequest.start(completionHandler: { (connection, result, error) in
+                        if let error = error
+                        {
+                            print("KRIS: User details could not be obtained. Error = \(error)")
+                        }
+                        else
+                        {
+                            if let userDetails = result as? [String: String]
+                            {
+                                print("KRIS: User details obtained successfully. Details = \(userDetails["email"])")
+                                
+                            }
+                        }
+                    })
+                }
+            }
+            print("KRIS: User was logged in successfully.")
+        }
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("KRIS: User logged out.")
     }
 
     override func didReceiveMemoryWarning() {

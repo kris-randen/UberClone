@@ -10,6 +10,7 @@
 import UIKit
 
 import Parse
+import FBSDKLoginKit
 
 // If you want to use any of the UI components, uncomment this line
 // import ParseUI
@@ -27,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Enable storing and querying data from Local Datastore.
         // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         Parse.enableLocalDatastore()
         
         let parseConfiguration = ParseClientConfiguration(block: { (ParseMutableClientConfiguration) -> Void in
@@ -151,6 +155,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Facebook SDK Integration
     //--------------------------------------
 
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool
+    {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication)
+    {
+        FBSDKAppEvents.activateApp()
+    }
     ///////////////////////////////////////////////////////////
     // Uncomment this method if you are using Facebook
     ///////////////////////////////////////////////////////////
